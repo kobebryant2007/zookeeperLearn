@@ -12,12 +12,13 @@ public class ZookeeperTest {
     public static void main(String[] args){
         ZooKeeper zooKeeper = null;
         try {
-            zooKeeper = new ZooKeeper("localhost:2181", 10000, new Watcher() {
+            zooKeeper = new ZooKeeper("localhost:2181", 10000, (WatchedEvent event) -> System.out.println("发生了什么呢" + event.getType().toString())
+                   /* new Watcher() {
                 @Override
                 public void process(WatchedEvent event) {
                     System.out.println("发生了什么呢" + event.getType().toString()) ;
                 }
-            });
+            }*/);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,9 +28,9 @@ public class ZookeeperTest {
         zooKeeper.getState();
         // 创建一个目录节点
         try {
-            zooKeeper.create("/testRootPath", "testRootData".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
-                    CreateMode.PERSISTENT);
-            zooKeeper.create("/testRootPath/testChildPathOne", "testChildDataOne".getBytes(),
+            /*zooKeeper.create("/testRootPath", "testRootData".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                    CreateMode.PERSISTENT);*/
+            zooKeeper.create("/testRootPath/testChildPathOne3", "testChildDataOne2".getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
         } catch (KeeperException e) {
             e.printStackTrace();
